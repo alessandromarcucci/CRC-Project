@@ -1,0 +1,113 @@
+###################################################################
+# Auto generated configuration. Dated: Sun May 20 12:11:24 CEST 2012
+###################################################################
+
+#
+# You will need to merge the content of this file with your 
+# regular obj.conf and then restart (=stop + start) your Netscape server. 
+#
+
+#
+# Loading the redirector into your server
+#
+
+Init fn="load-modules" funcs="jk_init,jk_service" shlib="<put full path to the redirector here>"
+Init fn="jk_init" worker_file="C:/SOAP/jakarta-tomcat-3.2.4/conf/workers.properties" log_level="debug" log_file="C:/SOAP/jakarta-tomcat-3.2.4/logs/netscape_redirect.log"
+
+<Object name=default>
+#
+# Redirecting the root context requests to tomcat.
+#
+NameTrans fn="assign-name" from="/servlet/*" name="servlet"
+NameTrans fn="assign-name" from="/*.jsp" name="servlet"
+
+#########################################################
+# Auto configuration for the /examples context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+NameTrans fn="assign-name" from="/examples/servlet/*" name="servlet"
+NameTrans fn="assign-name" from="/examples/*.jsp" name="servlet"
+NameTrans fn=pfx2dir from="/examples" dir="C:/SOAP/jakarta-tomcat-3.2.4/webapps/examples"
+
+#######################################################
+# Auto configuration for the /examples context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /admin context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+NameTrans fn="assign-name" from="/admin/servlet/*" name="servlet"
+NameTrans fn="assign-name" from="/admin/*.jsp" name="servlet"
+NameTrans fn=pfx2dir from="/admin" dir="C:/SOAP/jakarta-tomcat-3.2.4/webapps/admin"
+
+#######################################################
+# Auto configuration for the /admin context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /phpmyadmin context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+NameTrans fn="assign-name" from="/phpmyadmin/servlet/*" name="servlet"
+NameTrans fn="assign-name" from="/phpmyadmin/*.jsp" name="servlet"
+NameTrans fn=pfx2dir from="/phpmyadmin" dir="C:/SOAP/jakarta-tomcat-3.2.4/webapps/phpmyadmin"
+
+#######################################################
+# Auto configuration for the /phpmyadmin context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /soap context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+NameTrans fn="assign-name" from="/soap/servlet/*" name="servlet"
+NameTrans fn="assign-name" from="/soap/*.jsp" name="servlet"
+NameTrans fn=pfx2dir from="/soap" dir="C:/SOAP/jakarta-tomcat-3.2.4/webapps/soap"
+
+#######################################################
+# Auto configuration for the /soap context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /test context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+NameTrans fn="assign-name" from="/test/servlet/*" name="servlet"
+NameTrans fn="assign-name" from="/test/*.jsp" name="servlet"
+NameTrans fn=pfx2dir from="/test" dir="C:/SOAP/jakarta-tomcat-3.2.4/webapps/test"
+
+#######################################################
+# Auto configuration for the /test context ends.
+#######################################################
+
+#######################################################
+# Protecting the web inf directory.
+#######################################################
+PathCheck fn="deny-existence" path="*/WEB-INF/*"
+
+</Object>
+
+#######################################################
+# New object to execute your servlet requests.
+#######################################################
+<Object name=servlet>
+ObjectType fn=force-type type=text/html
+Service fn="jk_service" worker="ajp12" path="/*"
+</Object>
+

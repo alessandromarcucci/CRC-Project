@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<n:service xmlns:n="http://xml.apache.org/xml-soap/deployment" id="urn:crc">
+		<n:provider 	type="java" 
+				scope="Application" 
+				methods="getTabCode getTabCognome getTabNome getTabData getTabEta getTabSesso getTabDatar getTabDatad getTabDurata getTabDRG getTabPrima getTabIcePrima getTabSeconda getTabIceSeconda
+					getTabTerza getTabIceTerza getTabQuarta getTabIceQuarta getTabNPC getTabCollDate getTabCreat getTabCRC getTab5classi getTab2classi getTabDiabete getTabIpertensione
+					getTabMDC getTabTipo getTabDescrizione getTabPeso getTabSoglia
+					VerificaUser VerificaUsername salvaUser getUser getCode deleteUser checkPaziente newPaziente getName getSecondName getDate
+					getCode1 getDate1 getEtà1 getDataR1 getDataD1 getDurata1 getDRG1 getPrima1 getIcePrima1 getSeconda1 getIceSeconda1
+					getTerza1 getIceTerza1 getQuarta1 getIceQuarta1 getNPC1 getColldate1 getCreat1 getCRC1 get2classi1 get5classi1 UpdateRic getMDC getTipo
+					getDescrizione getPeso getSoglia getAllCode getAllSex getAllAge getAllDatar getAllDatad getAllDurata getAllDRG 
+					getAllPrima getAllIcePrima getAllSeconda getAllIceSeconda getAllTerza getAllIceTerza getAllQuarta getAllIceQuarta
+					getAllNPC getAllColldate getAllCreat getAllCRC getAllName getPazCode getPazName getPazSecondName getPazDate getUserName getUserSecondName
+					getUserDate RitornaID newRicovero getIDRic getCodeRic getDatarRic getDatadRic getDRGRic deleteRic getOneID getOneDataRic getOneDataDim getOneDRG getPesoMax
+					getTabCodeCF getTabCognomeCF getTabNomeCF getTabDataCF getTabEtaCF getTabSessoCF getTabDatarCF getTabDatadCF getTabDurataCF getTabDRGCF getTabPrimaCF getTabIcePrimaCF
+					getTabSecondaCF getTabIceSecondaCF getTabTerzaCF getTabIceTerzaCF getTabQuartaCF getTabIceQuartaCF getTabNPCCF getTabCollDateCF getTabCreatCF getTabCRCCF getTab5classiCF 
+					getTab2classiCF getTabDiabeteCF getTabIpertensioneCF getTabMDCCF getTabTipoCF getTabDescrizioneCF getTabPesoCF getTabSogliaCF
+					getTabCodeMDC getTabCognomeMDC getTabNomeMDC getTabDataMDC getTabEtaMDC getTabSessoMDC getTabDatarMDC getTabDatadMDC getTabDurataMDC getTabDRGMDC getTabPrimaMDC getTabIcePrimaMDC
+					getTabSecondaMDC getTabIceSecondaMDC getTabTerzaMDC getTabIceTerzaMDC getTabQuartaMDC getTabIceQuartaMDC getTabNPCMDC getTabCollDateMDC getTabCreatMDC getTabCRCMDC getTab5classiMDC
+ 					getTab2classiMDC getTabDiabeteMDC getTabIpertensioneMDC getTabMDCMDC getTabTipoMDC getTabDescrizioneMDC getTabPesoMDC getTabSogliaMDC
+					getTabCode2C getTabCognome2C getTabNome2C getTabData2C getTabEta2C getTabSesso2C getTabDatar2C getTabDatad2C getTabDurata2C getTabDRG2C getTabPrima2C getTabIcePrima2C
+					getTabSeconda2C getTabIceSeconda2C getTabTerza2C getTabIceTerza2C getTabQuarta2C getTabIceQuarta2C getTabNPC2C getTabCollDate2C getTabCreat2C getTabCRC2C getTab5classi2C
+ 					getTab2classi2C getTabDiabete2C getTabIpertensione2C getTabMDC2C getTabTipo2C getTabDescrizione2C getTabPeso2C getTabSoglia2C
+					getTabCode5C getTabCognome5C getTabNome5C getTabData5C getTabEta5C getTabSesso5C getTabDatar5C getTabDatad5C getTabDurata5C getTabDRG5C getTabPrima5C getTabIcePrima5C
+					getTabSeconda5C getTabIceSeconda5C getTabTerza5C getTabIceTerza5C getTabQuarta5C getTabIceQuarta5C getTabNPC5C getTabCollDate5C getTabCreat5C getTabCRC5C getTab5classi5C
+ 					getTab2classi5C getTabDiabete5C getTabIpertensione5C getTabMDC5C getTabTipo5C getTabDescrizione5C getTabPeso5C getTabSoglia5C VerificaUserAd">
+			<n:java class="serverCRC.Main"/>
+		</n:provider>
+</n:service>

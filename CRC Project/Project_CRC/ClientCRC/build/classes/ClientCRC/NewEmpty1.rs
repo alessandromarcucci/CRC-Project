@@ -1,0 +1,4 @@
+NewEmpty1$TxtFileFilter
+NewEmpty1$OpenFileChooser
+NewEmpty1
+NewEmpty1$SaveFileChooser

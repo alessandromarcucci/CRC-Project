@@ -1,0 +1,110 @@
+###################################################################
+# Auto generated configuration. Dated: Sun May 20 12:11:24 CEST 2012
+###################################################################
+
+#
+# Default worker to be used through our mappings
+#
+default.worker=ajp12
+
+#
+# Root context mounts for Tomcat
+#
+/servlet/*=$(default.worker)
+/*.jsp=$(default.worker)
+
+#########################################################
+# Auto configuration for the /examples context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+/examples/servlet/*=$(default.worker)
+/examples/*.jsp=$(default.worker)
+
+#
+# If you want tomcat to serve all the resources (including static) that
+# are part of the /examples context, uncomment the following line
+#
+# /examples/*=$(default.worker)
+#######################################################
+# Auto configuration for the /examples context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /admin context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+/admin/servlet/*=$(default.worker)
+/admin/*.jsp=$(default.worker)
+
+#
+# If you want tomcat to serve all the resources (including static) that
+# are part of the /admin context, uncomment the following line
+#
+# /admin/*=$(default.worker)
+#######################################################
+# Auto configuration for the /admin context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /phpmyadmin context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+/phpmyadmin/servlet/*=$(default.worker)
+/phpmyadmin/*.jsp=$(default.worker)
+
+#
+# If you want tomcat to serve all the resources (including static) that
+# are part of the /phpmyadmin context, uncomment the following line
+#
+# /phpmyadmin/*=$(default.worker)
+#######################################################
+# Auto configuration for the /phpmyadmin context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /soap context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+/soap/servlet/*=$(default.worker)
+/soap/*.jsp=$(default.worker)
+
+#
+# If you want tomcat to serve all the resources (including static) that
+# are part of the /soap context, uncomment the following line
+#
+# /soap/*=$(default.worker)
+#######################################################
+# Auto configuration for the /soap context ends.
+#######################################################
+
+#########################################################
+# Auto configuration for the /test context starts.
+#########################################################
+
+#
+# The following line mounts all JSP file and the /servlet/ uri to tomcat
+#
+/test/servlet/*=$(default.worker)
+/test/*.jsp=$(default.worker)
+
+#
+# If you want tomcat to serve all the resources (including static) that
+# are part of the /test context, uncomment the following line
+#
+# /test/*=$(default.worker)
+#######################################################
+# Auto configuration for the /test context ends.
+#######################################################
+

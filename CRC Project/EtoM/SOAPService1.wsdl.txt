@@ -1,0 +1,870 @@
+﻿
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- DEFINIZIONE IN WSDL DEL NOSTRO SERVIZIO -->
+
+<wsdl:definitions>
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+xmlns:tns="http://new.webservice.namespace" 
+xmlns:ns="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:ns1="http://localhost:8080/soap/servlet/rpcrouter" 
+targetNamespace="http://localhost:8080/soap/servlet/rpcrouter">
+
+<!-- Definizione dei tipi di dato utilizzati nei messaggi -->
+
+	<wsdl:types>
+		<xs:schema targetNamespace="http://localhost:8080/soap/servlet/rpcrouter" elementFormDefault="qualified"/>
+	</wsdl:types>
+
+<!-- Definizione dei vari messaggi di richiesta e risposta -->
+
+  <!-- checkLogin -->
+	<wsdl:message name="checkLoginRequest">
+		  <wsdl:documentation>Controlla se l'username e password inseriti sono corretti e se si è amminastratore o utenti</wsdl:documentation>
+   		  <wsdl:part name="username" type="xs:string"/>
+    		  <wsdl:part name="password" type="xs:string"/>
+  	</wsdl:message>
+	<wsdl:message name="checkLoginResponse">
+		<wsdl:documentation>Ritorna 'A' se l'user è admin, 'U' se l'user è un utente normale, oppure 'nontrovato' in caso di errore</wsdl:documentation>
+    		<wsdl:part name="checkLoginReturn" type="soapenc:String"/>
+  	</wsdl:message>
+
+  <!-- checkMatch -->
+	  <wsdl:message name="checkMatchRequest">
+		<wsdl:documentation>Controlla quando viene aggiunta una partita se l'ID della partita è già utilizzato</wsdl:documentation>
+    		<wsdl:part name="id" type="xs:integer"/>
+	  </wsdl:message>
+	 <wsdl:message name="checkMatchResponse">
+		<wsdl:documentation>Ritorna 'libero' se l'id partita non è utilizzato altrimenti 'occupato'</wsdl:documentation>
+		<wsdl:part name="checkMatchReturn" type="soapenc:String"/>
+	</wsdl:message>
+
+  <!-- newUser -->
+  <wsdl:message name="newUserRequest">
+    <wsdl:documentation>Invia i dati per inserire un nuovo utente nel database</wsdl:documentation>
+    <wsdl:part name="cf" type="xs:string"/>
+    <wsdl:part name="nome" type="xs:string"/>
+    <wsdl:part name="cognome" type="xs:string"/>
+    <wsdl:part name="nascita" type="xs:string"/>
+    <wsdl:part name="indirizzo" type="xs:string"/>
+    <wsdl:part name="mail" type="xs:string"/>
+    <wsdl:part name="username" type="xs:string"/>
+    <wsdl:part name="pass" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="newUserResponse">
+    <wsdl:documentation>Ritorna 'si' se tutto è andato bene altrimenti 'no'</wsdl:documentation>
+    <wsdl:part name="newUserReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- newMatch -->
+  <wsdl:message name="newMatchRequest">
+    <wsdl:documentation>Invia i dati per inserire una nuova partita nel database</wsdl:documentation>
+    <wsdl:part name="id" type="xs:integer"/>
+    <wsdl:part name="idpart" type="xs:interger"/>
+    <wsdl:part name="casa" type="xs:string"/>
+    <wsdl:part name="fuori" type="xs:string"/>
+    <wsdl:part name="tipo" type="xs:string"/>
+    <wsdl:part name="data" type="xs:string"/>
+    <wsdl:part name="ora" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="newMatchResponse">
+    <wsdl:documentation>Ritorna 'si' se tutto è andato bene altrimenti 'no'</wsdl:documentation>
+    <wsdl:part name="newMatchReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- newPren -->
+  <wsdl:message name="newPrenRequest">
+    <wsdl:documentation>Invia i dati per inserire una nuova prenotazione nel database ed incrementa di uno i posti prenotati</wsdl:documentation>
+    <wsdl:part name="cf" type="xs:string"/>
+    <wsdl:part name="nome" type="xs:string"/>
+    <wsdl:part name="casa" type="xs:string"/>
+    <wsdl:part name="fuori" type="xs:string"/>
+    <wsdl:part name="data" type="xs:string"/>
+    <wsdl:part name="username" type="xs:string"/>
+    <wsdl:part name="posto" type="xs:integer"/>
+    <wsdl:part name="id" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="newPrenResponse">
+    <wsdl:documentation>Ritorna 'si' se tutto è andato bene altrimenti 'no'</wsdl:documentation>
+    <wsdl:part name="newPrenReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- UpdateMatch -->
+  <wsdl:message name="UpdateMatchRequest">
+    <wsdl:documentation>Invia la data e l'ora da modificare</wsdl:documentation>
+	  <wsdl:part name="id" type="xs:integer"/>
+	  <wsdl:part name="data" type="xs:string"/>
+	  <wsdl:part name="ora" type="xs:string"/>
+    </wsdl:message>
+  <wsdl:message name="UpdateResponse">
+    <wsdl:documentation>modifica la data e l'ora</wsdl:documentation>
+    <wsdl:part name="UpdateMatchReturn" type="soapenc:void"/>
+  </wsdl:message>
+
+  <!-- DeleteMatch -->
+  <wsdl:message name="DeleteMatchRequest">
+    <wsdl:documentation>Invia i dati della partita che dovrà essere cancellata</wsdl:documentation>
+    <wsdl:part name="id" type="xs:integer"/>  
+  </wsdl:message>
+  <wsdl:message name="getOSResponse">
+    <wsdl:documentation>Ritorna la lista di tutti i sistemi operativi esistenti nel db</wsdl:documentation>
+    <wsdl:part name="getOSReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+ <!-- checkUser -->
+  <wsdl:message name="checkUserRequest">
+    <wsdl:documentation>controlla se un username è già utilizzato</wsdl:documentation>
+    <wsdl:part name="username" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="checkUserResponse">
+    <wsdl:documentation>Ritorna 'libero' se l'username è disponibile altrimenti ritorna 'occuppato'</wsdl:documentation>
+    <wsdl:part name="checkUserReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- loadSector -->
+  <wsdl:message name="loadSectorRequest">
+    <wsdl:documentation>Invia i dati per caricare i nomi dei settori dello stadio in una combo</wsdl:documentation>
+    <wsdl:part name="casa" type="xs:string"/> 
+    <wsdl:part name="data" type="xs:string"/> 
+  </wsdl:message>
+  <wsdl:message name="loadSectorResponse">
+    <wsdl:documentation>Ritorna i nomi del settore dello stadio</wsdl:documentation>
+    <wsdl:part name="loadSectorReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- addHome -->
+  <wsdl:message name="addHomeRequest">
+    <wsdl:documentation>Invia i dati per caricare i nomi delle squadre che giocano in casa</wsdl:documentation>
+   </wsdl:message>
+  <wsdl:message name="addHomeResponse">
+    <wsdl:documentation>Ritorna i nomi delle squadre che giocano in casa</wsdl:documentation>
+    <wsdl:part name="addHomeReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- getCF -->
+  <wsdl:message name="getCFRequest">
+    <wsdl:documentation>Invia i dati per caricare il codice fiscale dell'utente</wsdl:documentation>
+    <wsdl:part name="username" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getCFResponse">
+    <wsdl:documentation>Ritorna il codice fiscale dell'utente</wsdl:documentation>
+    <wsdl:part name="getCFReturn" type="soapenc:String"/>
+
+<!-- getType -->
+  <wsdl:message name="getTypeRequest">
+    <wsdl:documentation>Invia i dati per caricare il tipo di partita</wsdl:documentation>
+    <wsdl:part name="home" type="xs:string"/>  
+    <wsdl:part name="visitor" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getTypeResponse">
+    <wsdl:documentation>Ritorna il tipo di partita</wsdl:documentation>
+    <wsdl:part name="getTypeReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+
+<!-- getCode -->
+  <wsdl:message name="getCodeRequest">
+    <wsdl:documentation>Invia i dati per caricare l'id della partita</wsdl:documentation>
+    <wsdl:part name="home" type="xs:string"/>  
+    <wsdl:part name="visitor" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getCodeResponse">
+    <wsdl:documentation>Ritorna l'id della partita</wsdl:documentation>
+    <wsdl:part name="getCodeReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getDate -->
+  <wsdl:message name="getDateRequest">
+    <wsdl:documentation>Invia i dati per caricare la data della partita</wsdl:documentation>
+    <wsdl:part name="home" type="xs:string"/>  
+    <wsdl:part name="visitor" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getDateResponse">
+    <wsdl:documentation>Ritorna la data della partita</wsdl:documentation>
+    <wsdl:part name="getDateReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getTime -->
+  <wsdl:message name="getTimeRequest">
+    <wsdl:documentation>Invia i dati per caricare l'ora della partita</wsdl:documentation>
+    <wsdl:part name="home" type="xs:string"/>  
+    <wsdl:part name="visitor" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getTimeResponse">
+    <wsdl:documentation>Ritorna la data della partita</wsdl:documentation>
+    <wsdl:part name="getTimeReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getStadium -->
+  <wsdl:message name="getStadiumRequest">
+    <wsdl:documentation>Invia i dati per caricare il nome dello stadio della partita</wsdl:documentation>
+    <wsdl:part name="home" type="xs:string"/>  
+    <wsdl:part name="visitor" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getStadiumResponse">
+    <wsdl:documentation>Ritorna il nome dello stadio della partita</wsdl:documentation>
+    <wsdl:part name="getStadiumReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getIdStadium -->
+  <wsdl:message name="getIdStadiumRequest">
+    <wsdl:documentation>Invia i dati per caricare l'ID dello stadio della partita</wsdl:documentation>
+    <wsdl:part name="home" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getIdStadiumResponse">
+    <wsdl:documentation>Ritorna l'ID dello stadio della partita</wsdl:documentation>
+    <wsdl:part name="getIdStadiumReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getId -->
+  <wsdl:message name="getIdRequest">
+    <wsdl:documentation>Invia i dati per caricare l'id della partita</wsdl:documentation>
+    <wsdl:part name="home" type="xs:string"/>  
+    <wsdl:part name="vis" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getIdResponse">
+    <wsdl:documentation>Ritorna l'id della partita</wsdl:documentation>
+    <wsdl:part name="getIdReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- loadFuori -->
+  <wsdl:message name="getloadFuoriRequest">
+    <wsdl:documentation>Invia i dati per caricare tutte le avversarie della squadra selezionata</wsdl:documentation>
+    <wsdl:part name="casa" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getTypeResponse">
+    <wsdl:documentation>Ritorna tutte le avversarie della squadra selezionata</wsdl:documentation>
+    <wsdl:part name="loadFuoriReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- CasaMod -->
+  <wsdl:message name="CasaModRequest">
+    <wsdl:documentation>Invia i dati per caricare le squadre in casa</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="CasaModResponse">
+    <wsdl:documentation>Ritorna tutte le squadre in casa</wsdl:documentation>
+    <wsdl:part name="CasaModReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- FuoriMod -->
+  <wsdl:message name="FuoriModRequest">
+    <wsdl:documentation>Invia i dati per caricare le squadre in trasferta</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="FuoriModResponse">
+    <wsdl:documentation>Ritorna tutte le squadre in trasferta</wsdl:documentation>
+    <wsdl:part name="FuoriModReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- loadData -->
+  <wsdl:message name="loadDataRequest">
+    <wsdl:documentation>Invia i dati per caricare la data della partita</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="loadDataResponse">
+    <wsdl:documentation>Ritorna la data della partita</wsdl:documentation>
+    <wsdl:part name="loadDataReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- loadHome -->
+  <wsdl:message name="loadHomeRequest">
+    <wsdl:documentation>Invia i dati per caricare le squadre in casa nella tabella prenotazioni effettuate dell'utente</wsdl:documentation>
+     <wsdl:part name="cf" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="loadHomeResponse">
+    <wsdl:documentation>Ritorna le squadre in casa della partita acquistata</wsdl:documentation>
+    <wsdl:part name="loadHomeReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- loadVisitor -->
+  <wsdl:message name="loadVisitorRequest">
+    <wsdl:documentation>Invia i dati per caricare le squadre in trasferta nella tabella prenotazioni effettuate dell'utente</wsdl:documentation>
+     <wsdl:part name="cf" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="loadVisitorResponse">
+    <wsdl:documentation>Ritorna le squadre in trasferta della partita acquistata</wsdl:documentation>
+    <wsdl:part name="loadHomeReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+<!-- getName -->
+  <wsdl:message name="getNameRequest">
+    <wsdl:documentation>Invia i dati per caricare il nome dell'utente</wsdl:documentation>
+    <wsdl:part name="username" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getNameResponse">
+    <wsdl:documentation>Ritorna il nome dell'utente</wsdl:documentation>
+    <wsdl:part name="getName" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getPrice -->
+  <wsdl:message name="getPriceRequest">
+    <wsdl:documentation>Invia i dati per caricare il prezzo del settore della partita</wsdl:documentation>
+    <wsdl:part name="codice" type="xs:string"/>  
+    <wsdl:part name="settore" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getPriceResponse">
+    <wsdl:documentation>Ritorna il prezzo del settore della partita</wsdl:documentation>
+    <wsdl:part name="getPriceReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getTicket -->
+  <wsdl:message name="getTicketRequest">
+    <wsdl:documentation>Invia i dati per caricare il posto del settore della partita</wsdl:documentation>
+    <wsdl:part name="codice" type="xs:string"/>  
+    <wsdl:part name="settore" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getTicketResponse">
+    <wsdl:documentation>Ritorna il posto del settore della partita</wsdl:documentation>
+    <wsdl:part name="getTicketReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- getAddress -->
+  <wsdl:message name="getAddressRequest">
+    <wsdl:documentation>Invia i dati per caricare l'indirizzo dell'utente</wsdl:documentation>
+    <wsdl:part name="username" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="getAddressResponse">
+    <wsdl:documentation>Ritorna l'indirizzo dell'utente</wsdl:documentation>
+    <wsdl:part name="getAddressReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+<!-- checkDisp -->
+  <wsdl:message name="checkDispRequest">
+    <wsdl:documentation>Invia i dati per controllare se vi è posto disponibile nel settore</wsdl:documentation>
+    <wsdl:part name="idpartita" type="xs:string"/>  
+    <wsdl:part name="sett" type="xs:string"/>  
+  </wsdl:message>
+  <wsdl:message name="checkDispResponse">
+    <wsdl:documentation>Ritorna 'true' se c'è posto disponibile altrimenti 'false'</wsdl:documentation>
+    <wsdl:part name="checkDispReturn" type="soapenc:Boolean"/>
+  </wsdl:message>
+
+<!-- Definizione delle operazioni che può svolgere il nostro web service -->
+
+	<wsdl:portType name="Server">
+		<wsdl:operation name="checkLogin" parameterOrder="username password">
+			<wsdl:input name="checkLoginRequest" message="ns1:checkLoginRequest"/>
+			<wsdl:output name="checkLoginResponse" message="ns1:checkLoginResponse">
+				<wsdl:documentation>Controlla se l'username e la password sono esatti e se si e amministratori o utenti</wsdl:documentation>
+			</wsdl:output>
+                </wsdl:operation>
+    		
+		<wsdl:operation name="checkMatch" parameterOrder="id">
+      			<wsdl:input name="checkMatchRequest" message="ns1:checkMatchRequest"/>
+      			<wsdl:output name="checkMatchResponse" message="ns1:checkMatchResponse">
+       				 <wsdl:documentation>Controlla se una partita è già stata prenotata</wsdl:documentation>
+      			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="newUser" parameterOrder="UserInfo">
+			<wsdl:input name="newUserRequest" message="ns1:newUserRequest"/>
+			<wsdl:output name="newUserResponse" message="ns1:newUserResponse"/>
+				<wsdl:documentation>Inserisce un nuovo utente</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="newMatch" parameterOrder="MatchInfo">
+			<wsdl:input name="newMatchRequest" message="ns1:newMatchRequest"/>
+			<wsdl:output name="newMatchResponse" message="ns1:newMatchResponse"/>
+				<wsdl:documentation>Inserisce una nuova partita</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="newPren" parameterOrder="PrenInfo">
+			<wsdl:input name="newPrenRequest" message="ns1:newPrenRequest"/>
+			<wsdl:output name="newPrenResponse" message="ns1:newPrenResponse"/>
+				<wsdl:documentation>Inserisce una nuova prenotazione</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="UpdateMatch" parameterOrder="id data ora">
+			<wsdl:input name="UpdateMatchRequest" message="ns1:UpdateMatchRequest"/>
+			<wsdl:output name="UpdateMatchResponse" message="ns1:UpdateMatchResponse"/>
+				<wsdl:documentation>Modifica data ed ora di una partita</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="DeleteMatch" parameterOrder="id casa fuori">
+			<wsdl:input name="DeleteMatchRequest" message="ns1:DeleteMatchRequest"/>
+			<wsdl:output name="DeleteMatchResponse" message="ns1:DeleteMatchResponse"/>
+				<wsdl:documentation>Cancella una partita</wsdl:documentation>
+		</wsdl:operation>
+		
+		<wsdl:operation name="checkUser" parameterOrder="username">
+			<wsdl:input name="checkUserRequest" message="ns1:checkUserRequest"/>
+			<wsdl:output name="checkUserResponse" message="ns1:checkUserResponse"/>
+				<wsdl:documentation>Controlla che l'username sia disponibile</wsdl:documentation>
+
+		<wsdl:operation name="checkPren" parameterOrder="cf data">
+			<wsdl:input name="checkPrenRequest" message="ns1:checkPrenRequest"/>
+			<wsdl:output name="checkPrenResponse" message="ns1:checkPrenResponse"/>
+				<wsdl:documentation>Controlla che la partita sia disponibile ovvero non prenotata</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="loadSector" parameterOrder="casa date">
+			<wsdl:input name="loadSectorRequest" message="ns1:loadSectorRequest"/>
+			<wsdl:output name="loadSectorResponse" message="ns1:loadSectorResponse"/>
+				<wsdl:documentation>Carica i settori dello stadio</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="addHome" parameterOrder="InfoHome">
+			<wsdl:input name="addHomeRequest" message="ns1:addHomeRequest"/>
+			<wsdl:output name="addHomeResponse" message="ns1:addHomeResponse"/>
+				<wsdl:documentation>Carica le squadre in casa</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getCF" parameterOrder="username">
+			<wsdl:input name="getCFRequest" message="ns1:getCFRequest"/>
+			<wsdl:output name="getCFResponse" message="ns1:getCFResponse"/>
+				<wsdl:documentation>Ritorna il codice fiscale dell'utente/amministratore</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getType" parameterOrder="home visitor">
+			<wsdl:input name="getTypeRequest" message="ns1:getTypeRequest"/>
+			<wsdl:output name="getTypeResponse" message="ns1:getTypeResponse"/>
+				<wsdl:documentation>Ritorna la categoria della partita</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getCode" parameterOrder="home visitor">
+			<wsdl:input name="getCodeRequest" message="ns1:getCodeRequest"/>
+			<wsdl:output name="getCodeResponse" message="ns1:getCodeResponse"/>
+				<wsdl:documentation>Ritorna l'Id della partita</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getDate" parameterOrder="home visitor">
+			<wsdl:input name="getDateRequest" message="ns1:getDateRequest"/>
+			<wsdl:output name="getDateResponse" message="ns1:getDateResponse"/>
+				<wsdl:documentation>Ritorna la data della partita</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getTime" parameterOrder="home visitor">
+			<wsdl:input name="getTimeRequest" message="ns1:getTimeRequest"/>
+			<wsdl:output name="getTimeResponse" message="ns1:getTimeResponse"/>
+				<wsdl:documentation>Ritorna l'ora d'inizio della partita</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getStadium" parameterOrder="home visitor">
+			<wsdl:input name="getStadiumRequest" message="ns1:getStadiumRequest"/>
+			<wsdl:output name="getStadiumResponse" message="ns1:getStadiumResponse"/>
+				<wsdl:documentation>Ritorna il nome dello stadio</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getStadiumId" parameterOrder="home vis">
+			<wsdl:input name="getStadiumIdRequest" message="ns1:getStadiumIdRequest"/>
+			<wsdl:output name="getStadiumIdResponse" message="ns1:getStadiumIdResponse"/>
+				<wsdl:documentation>Ritorna l'id dello stadio</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="loadFuori" parameterOrder="casa">
+			<wsdl:input name="loadFuoriRequest" message="ns1:loadFuoriRequest"/>
+			<wsdl:output name="loadFuoriResponse" message="ns1:loadFuoriResponse"/>
+				<wsdl:documentation>Carica tutte le avversarie della squadra selezionata</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="FuoriMod" parameterOrder="FuoriInfo">
+			<wsdl:input name="FuoriModRequest" message="ns1:FuoriModRequest"/>
+			<wsdl:output name="FuoriModResponse" message="ns1:FuoriModResponse"/>
+				<wsdl:documentation>Ritorna tutte le avversarie nella tabella</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="CasaMod" parameterOrder="CasaInfo">
+			<wsdl:input name="CasaModRequest" message="ns1:CasaModRequest"/>
+			<wsdl:output name="CasaModResponse" message="ns1:CasaModResponse"/>
+				<wsdl:documentation>Ritorna tutte le squadre in casa nella tabella</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="loadData" parameterOrder="casa">
+			<wsdl:input name="loadDataRequest" message="ns1:loadDataRequest"/>
+			<wsdl:output name="loadDataResponse" message="ns1:loadDataResponse"/>
+				<wsdl:documentation>Ritorna tutte le date della squadra in casa nella tabella</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="loadHome" parameterOrder="cf">
+			<wsdl:input name="loadHomeRequest" message="ns1:loadHomeRequest"/>
+			<wsdl:output name="loadHomeResponse" message="ns1:loadHomeResponse"/>
+				<wsdl:documentation>Ritorna tutte le squadre in casa nella tabella prenotazioni</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="loadVisitor" parameterOrder="cf">
+			<wsdl:input name="loadVisitorRequest" message="ns1:loadVisitorRequest"/>
+			<wsdl:output name="loadVisitorResponse" message="ns1:loadVisitorResponse"/>
+				<wsdl:documentation>Ritorna tutte le squadre in trasferta nella tabella prenotazioni</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getName" parameterOrder="username">
+			<wsdl:input name="getNameRequest" message="ns1:getNameRequest"/>
+			<wsdl:output name="getNameResponse" message="ns1:getNameResponse"/>
+				<wsdl:documentation>Ritorna il nome dell'utente</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getPrice" parameterOrder="codice settore">
+			<wsdl:input name="getPriceRequest" message="ns1:getPriceRequest"/>
+			<wsdl:output name="getPriceResponse" message="ns1:getPriceResponse"/>
+				<wsdl:documentation>Ritorna il prezzo del settore</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getTicket" parameterOrder="codice settore">
+			<wsdl:input name="getTicketRequest" message="ns1:getTicketRequest"/>
+			<wsdl:output name="getTicketResponse" message="ns1:getTicketResponse"/>
+				<wsdl:documentation>Ritorna il costo del biglietto in base al settore</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="getAddress" parameterOrder="username">
+			<wsdl:input name="getAddressRequest" message="ns1:getAddressRequest"/>
+			<wsdl:output name="getAddressResponse" message="ns1:getAddressResponse"/>
+				<wsdl:documentation>Ritorna l'indirizzo dell'utente</wsdl:documentation>
+		</wsdl:operation>
+
+		<wsdl:operation name="checkDisp" parameterOrder="idpartita sett">
+			<wsdl:input name="checkDispRequest" message="ns1:checkDispRequest"/>
+			<wsdl:output name="checkDispResponse" message="ns1:checkDispResponse"/>
+				<wsdl:documentation>Controlla che si via spazio per prenotare in un determinato settore</wsdl:documentation>
+		</wsdl:operation>
+
+	</wsdl:portType>
+  
+<!-- Definizione relativa al collegamento tra le operazioni e l'end point fisico -->
+
+	<wsdl:binding name="ServerSoapBinding" type="ns1:Server">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+		<!-- checkLogin -->
+		<wsdl:operation name="checkLogin">
+			<soap:operation soapAction="urn:#checkLogin"/>
+			<wsdl:input name="checkLoginRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="checkLoginResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+
+		<!-- checkMatch -->
+		</wsdl:operation>
+		<wsdl:operation name="checkMatch">
+			<soap:operation soapAction="urn:#checkMatch"/>
+			<wsdl:input name="checkMatchRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="checkMatchResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- newUser -->
+		<wsdl:operation name="newUser">
+			<soap:operation soapAction="urn:#newUser"/>
+			<wsdl:input name="newUserRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="newUserResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- newMatch -->
+		<wsdl:operation name="newMatch">
+			<soap:operation soapAction="urn:#newMatch"/>
+			<wsdl:input name="newMatchRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="newMatchResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<!-- newPren -->
+		<wsdl:operation name="newPren">
+			<soap:operation soapAction="urn:#newPren"/>
+			<wsdl:input name="newPrenRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="newPrenResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<!-- UpdateMatch -->
+		<wsdl:operation name="UpdateMatch">
+			<soap:operation soapAction="urn:#UpdateMatch"/>
+			<wsdl:input name="UpdateMatchRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="UpdateMatchResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- DeleteMatch -->
+		<wsdl:operation name="DeleteMatch">
+			<soap:operation soapAction="urn:#DeleteMatch"/>
+			<wsdl:input name="DeleteMatchRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="DeleteMatchResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- checkUser -->
+		<wsdl:operation name="checkUser">
+			<soap:operation soapAction="urn:#checkUser"/>
+			<wsdl:input name="checkUserRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="checkUserResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- checkPren -->
+		<wsdl:operation name="checkPren">
+			<soap:operation soapAction="urn:#checkPren"/>
+			<wsdl:input name="checkPrenRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="checkPrenResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- loadSector -->
+		<wsdl:operation name="loadSector">
+			<soap:operation soapAction="urn:#loadSector"/>
+			<wsdl:input name="loadSectorRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="loadSectorResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- addHome -->
+		<wsdl:operation name="addHome">
+			<soap:operation soapAction="urn:#addHome"/>
+			<wsdl:input name="addHomeRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="addHomeResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getCF -->
+		<wsdl:operation name="getCF">
+			<soap:operation soapAction="urn:#getCF"/>
+			<wsdl:input name="getCFRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getCFResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getType -->
+		<wsdl:operation name="getType">
+			<soap:operation soapAction="urn:#getType"/>
+			<wsdl:input name="getTypeRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getTypeResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getCode -->
+		<wsdl:operation name="getCode">
+			<soap:operation soapAction="urn:#getCode"/>
+			<wsdl:input name="getCodeRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getCodeResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getDate -->
+		<wsdl:operation name="getDate">
+			<soap:operation soapAction="urn:#getDate"/>
+			<wsdl:input name="getDateRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getDateResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getTime -->
+		<wsdl:operation name="getTime">
+			<soap:operation soapAction="urn:#getTime"/>
+			<wsdl:input name="getTimeRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getTimeResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getStadium -->
+		<wsdl:operation name="getStadium">
+			<soap:operation soapAction="urn:#getStadium"/>
+			<wsdl:input name="getStadiumRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getStadiumResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getIdStadium -->
+		<wsdl:operation name="getIdStadium">
+			<soap:operation soapAction="urn:#getIdStadium"/>
+			<wsdl:input name="getIdStadiumRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getIdStadiumResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getId -->
+		<wsdl:operation name="getId">
+			<soap:operation soapAction="urn:#getId"/>
+			<wsdl:input name="getIdRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getIdResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- loadFuori -->
+		<wsdl:operation name="loadFuori">
+			<soap:operation soapAction="urn:#loadFuori"/>
+			<wsdl:input name="loadFuoriRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="loadFuoriResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- FuoriMod -->
+		<wsdl:operation name="FuoriMod">
+			<soap:operation soapAction="urn:#FuoriMod"/>
+			<wsdl:input name="FuoriModRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="FuoriModResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- CasaMod -->
+		<wsdl:operation name="CasaMod">
+			<soap:operation soapAction="urn:#CasaMod"/>
+			<wsdl:input name="CasaModRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="CasaModResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- loadData -->
+		<wsdl:operation name="loadData">
+			<soap:operation soapAction="urn:#loadData"/>
+			<wsdl:input name="loadDataRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="loadDataResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- loadHome -->
+		<wsdl:operation name="loadHome">
+			<soap:operation soapAction="urn:#loadHome"/>
+			<wsdl:input name="loadHomeRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="loadHomeResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- loadVisitor -->
+		<wsdl:operation name="loadVisitor">
+			<soap:operation soapAction="urn:#loadVisitor"/>
+			<wsdl:input name="loadVisitorRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="loadVisitorResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getName -->
+		<wsdl:operation name="getName">
+			<soap:operation soapAction="urn:#getName"/>
+			<wsdl:input name="getNameRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getNameResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getPrice -->
+		<wsdl:operation name="getPrice">
+			<soap:operation soapAction="urn:#getPrice"/>
+			<wsdl:input name="getPriceRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getPriceResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getTicket -->
+		<wsdl:operation name="getTicket">
+			<soap:operation soapAction="urn:#getTicket"/>
+			<wsdl:input name="getTicketRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getTicketResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- getAddress-->
+		<wsdl:operation name="getAddress">
+			<soap:operation soapAction="urn:#getAddress"/>
+			<wsdl:input name="getAddressRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="getAddressResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<!-- checkDisp-->
+		<wsdl:operation name="checkDisp">
+			<soap:operation soapAction="urn:#checkDisp"/>
+			<wsdl:input name="checkDispRequest">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:input>
+			<wsdl:output name="checkDispResponse">
+				<soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+<!-- Definizione relativa alla posizione fisica del servizio e alla sua descrizione -->
+
+	<wsdl:service name="SOAPService">
+		<wsdl:port name="Server" binding="ns1:ServerSoapBinding">
+			<soap:address location="http://localhost:8080/soap/"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,5 @@
+Sub Main
+Call objSpssApp.GetDesignatedOutputDoc.ExportDocument(SpssVisible, _
+	"c:\SOAP\spssoutput", SpssFormatXml, False)
+
+End Sub

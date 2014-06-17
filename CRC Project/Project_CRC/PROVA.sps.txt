@@ -1,0 +1,12 @@
+define !CSVFILE() "C:\SOAP\ProgettoCRC\ricoveri.csv". !enddefine.
+
+/*import csv file*/
+GET DATA
+	/TYPE=TXT
+	/FILE=!CSVFILE
+	/DELCASE=LINE
+	/DELIMITERS=";"
+	/ARRANGEMENT=DELIMITED
+	/FIRSTCASE=1
+	/IMPORTCASE=ALL
+	

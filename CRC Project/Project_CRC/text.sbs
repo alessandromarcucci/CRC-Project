@@ -1,0 +1,6 @@
+Sub Main
+'To export all visible items of the Designated Output Viewer to XML:
+Call objSpssApp.GetDesignatedOutputDoc.ExportDocument(SpssVisible, _
+	"c:\SOAP\spssoutput.txt",SpssFormatTxt, False)
+
+End Sub

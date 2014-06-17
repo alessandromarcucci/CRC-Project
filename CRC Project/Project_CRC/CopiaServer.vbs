@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "CopiaServer.bat",0

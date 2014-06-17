@@ -1,0 +1,54 @@
+'Begin Description 
+'This script demonstrates how arguments can be passed into a script when 
+'the script is run using the SCRIPT command in a syntax file. 
+'To run this script, open 'SaveClose.sps' syntax file and run the 
+'syntax. The script saves the designated Viewer file as the name 
+'specified by the argument in the SPSS directory. 
+'Requirements: The script must be run from the 'SaveClose.sps' syntax 
+'file. 
+
+Option Explicit 
+
+Sub Main 
+'limit the number of open windows 
+'Const MAX_WINDOWS As Integer = 10 
+'Used to save the currently open Viewer doc 
+'and create a new Viewer doc 
+Dim objOutputDoc As ISpssOutputDoc 
+Dim strParam As String 
+
+Dim i As Integer 
+Dim objDocuments As ISpssDocuments 
+
+Set objDocuments = objSpssApp.Documents 
+
+strParam = objSpssApp.ScriptParameter(0) 
+If objDocuments.OutputDocCount > 0 And strParam <> "" Then 
+Set objOutputDoc = objSpssApp.GetDesignatedOutputDoc 
+'Remove the ' from the following line to print all output: 
+'objOutputDoc.PrintDoc 
+'check to see if the user specified a path 
+If InStr(strParam, "\") > 0 Then 
+objOutputDoc.SaveAs strParam 
+Else 'if no path specified, use the current directory 
+objOutputDoc.SaveAs objSpssApp.GetSPSSPath & strParam 
+End If 
+End If 
+
+'open a new window and make it visible 
+'objSpssApp.NewOutputDoc.Visible = True 
+'or just open a new window (e.g. for Production Mode) 
+objSpssApp.NewOutputDoc 
+'and close the old ones ... 
+'but only if it's not designated, 
+'and there are fewer than MAX_WINDOWS 
+'If objDocuments.OutputDocCount < MAX_WINDOWS Then Exit Sub 
+For i = objDocuments.OutputDocCount - 1 To 0 Step -1 
+Set objOutputDoc = objDocuments.GetOutputDoc(i) 
+If Not objOutputDoc.Designated Then 
+objOutputDoc.Close 
+End If 
+Next 
+End Sub 
+
+'End of script 

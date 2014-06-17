@@ -1,0 +1,11 @@
+Sub Main
+	Dim objDocuments As ISpssDocuments
+	Dim i As Integer
+
+	Set objDocuments = objSpssApp.Documents
+	With objDocuments
+	For i = .SyntaxDocCount - 1 To 0 Step -1
+		.GetSyntaxDoc(i).Close
+	Next
+	End With
+End Sub

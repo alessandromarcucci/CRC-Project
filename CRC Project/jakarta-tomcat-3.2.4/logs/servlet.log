@@ -1,0 +1,7 @@
+2012-05-20 12:11:23 - path="/examples" :jsp: init
+2012-05-20 12:11:23 - path="/admin" :jsp: init
+2012-05-20 12:11:23 - path="/phpmyadmin" :jsp: init
+2012-05-20 12:11:23 - path="" :jsp: init
+2012-05-20 12:11:23 - path="/soap" :jsp: init
+2012-05-20 12:11:23 - path="/test" :jsp: init
+2012-05-20 12:11:24 - path="/soap" :rpcrouter: init

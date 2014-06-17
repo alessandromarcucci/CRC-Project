@@ -1,0 +1,1088 @@
+﻿<?xmlversion = "1.0" encoding="UTF-8"?>
+
+<!-- SOAPService.wsdl -->
+
+<wsdl:definitions
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:tns="http://new.webservice.namespace"
+  xmlns:ns="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:ns1="http://localhost:8080/soap/servlet/rpcrouter"
+  targetNamespace="http://localhost:8080/soap/servlet/rpcrouter">
+
+  <!-- Definizione dei tipi di dato utilizzati nei messaggi -->
+
+  <wsdl:types>
+    <xs:schema targetNamespace="http://localhost:8080/soap/servlet/rpcrouter" elementFormDefault="qualified"/>
+  </wsdl:types>
+
+  <!-- Definizione dei vari messaggi di richiesta e risposta -->
+
+  <!-- VerificaUser -->
+  <wsdl:message name="VerificaUserRequest">
+    <wsdl:documentation>Controlla se l'username e password inseriti sono corretti e se si è amministratore o utenti</wsdl:documentation>
+    <wsdl:part name="username" type="xs:string"/>
+    <wsdl:part name="password" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="VerificaUserResponse">
+    <wsdl:documentation>Ritorna 'A' se l'user è admin, 'U' se l'user è un utente normale, oppure 'nontrovato' in caso di errore</wsdl:documentation>
+    <wsdl:part name="VerificaUserReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- salvaUser -->
+  <wsdl:message name="salvaUserRequest">
+    <wsdl:documentation>Controlla quando viene aggiunto un libro se l'ID del libro è già utilizzato</wsdl:documentation>
+    <wsdl:part name="CF" type="xs:string"/>
+    <wsdl:part name="Nome" type="xs:string"/>
+    <wsdl:part name="Cognome" type="xs:string"/>
+    <wsdl:part name="Data" type="xs:string"/>
+    <wsdl:part name="Indirizzo" type="xs:string"/>
+    <wsdl:part name="Mail" type="xs:string"/>
+    <wsdl:part name="User" type="xs:string"/>
+    <wsdl:part name="Pass" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="salvaUserResponse">
+    <wsdl:documentation>Ritorna 'libero' se l'id libro non è utilizzato altrimenti 'occupato'</wsdl:documentation>
+    <wsdl:part name="salvaUserReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- getUser -->
+  <wsdl:message name="getUserRequest">
+    <wsdl:documentation>Invia i dati per inserire un nuovo utente nel database</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="getUserResponse">
+    <wsdl:documentation>Ritorna 'si' se i dati dell'utente sono stati inseriti correttamente altrimenti 'no'</wsdl:documentation>
+    <wsdl:part name="getUserReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- getCode -->
+  <wsdl:message name="getCodeRequest">
+    <wsdl:documentation>Invia i dati per inserire un nuovo libro nel database</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="getCodeResponse">
+    <wsdl:documentation>Ritorna 'si' se i dati del libro sono stati inseriti correttamente altrimenti 'no'</wsdl:documentation>
+    <wsdl:part name="getCodeReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- deleteUser -->
+  <wsdl:message name="deleteUserRequest">
+    <wsdl:documentation>Invia i dati per inserire una nuova prenotazione nel database ed incrementa di uno i posti prenotati</wsdl:documentation>
+    <wsdl:part name="code" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="deleteUserResponse">
+    <wsdl:documentation>Ritorna 'si' se i dati della prenotazione sono stati inseriti correttamente altrimenti 'no'</wsdl:documentation>
+    <wsdl:part name="deleteUserReturn" type="soapenc:void"/>
+  </wsdl:message>
+
+  <!-- checkRicovero -->
+  <wsdl:message name="checkRicoveroRequest">
+    <wsdl:documentation>modifica le informazioni del libro</wsdl:documentation>
+    <wsdl:part name="code" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="checkRicoveroResponse">
+    <wsdl:documentation>modifica le informazioni del libro</wsdl:documentation>
+    <wsdl:part name="checkRicoveroReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- boo -->
+  <wsdl:message name="newRicoveroRequest">
+    <wsdl:documentation>Invia i dati del libro che dovrà essere cancellato</wsdl:documentation>
+    <wsdl:part name="code" type="xs:String"/>
+    <wsdl:part name="nome" type="xs:String"/>
+    <wsdl:part name="cognome" type="xs:String"/>
+    <wsdl:part name="data" type="xs:String"/>
+    <wsdl:part name="età" type="xs:String"/>
+    <wsdl:part name="sesso" type="xs:String"/>
+    <wsdl:part name="datar" type="xs:String"/>
+    <wsdl:part name="datad" type="xs:String"/>
+    <wsdl:part name="durata" type="xs:String"/>
+    <wsdl:part name="DRG" type="xs:String"/>
+    <wsdl:part name="prima" type="xs:String"/>
+    <wsdl:part name="iceprima" type="xs:String"/>
+    <wsdl:part name="seconda" type="xs:String"/>
+    <wsdl:part name="iceseconda" type="xs:String"/>
+    <wsdl:part name="terza" type="xs:String"/>
+    <wsdl:part name="iceterza" type="xs:String"/>
+    <wsdl:part name="quarta" type="xs:String"/>
+    <wsdl:part name="icequarta" type="xs:String"/>
+    <wsdl:part name="contab" type="xs:String"/>
+    <wsdl:part name="colldate" type="xs:String"/>
+    <wsdl:part name="creat" type="xs:String"/>
+    <wsdl:part name="CRC" type="xs:String"/>
+  </wsdl:message>
+  <wsdl:message name="newRicoveroResponse">
+    <wsdl:documentation>Ritorna la lista di tutti i sistemi operativi esistenti nel db</wsdl:documentation>
+    <wsdl:part name="newRicoveroReturn" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- getName -->
+  <wsdl:message name="getNameRequest">
+    <wsdl:documentation>controlla se un username è già utilizzato</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="getNameResponse">
+    <wsdl:documentation>Ritorna 'libero' se l'username è disponibile altrimenti ritorna 'occupato'</wsdl:documentation>
+    <wsdl:part name="getNameReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- getSecondName -->
+  <wsdl:message name="getSecondNameRequest">
+    <wsdl:documentation>controlla se l'utente ha già effettuato la prenotazione</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="getSecondNameResponse">
+    <wsdl:documentation>Ritorna "libero" se il libro non è stato prenotato dall'utente oppure "occupato"</wsdl:documentation>
+    <wsdl:part name="getSecondNameReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- getDate -->
+  <wsdl:message name="getDateRequest">
+    <wsdl:documentation>Invia i dati per caricare i nomi dei libri presenti nel db</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="getDateResponse">
+    <wsdl:documentation>Ritorna la lista dei libri senza ripetizioni</wsdl:documentation>
+    <wsdl:part name="getDateReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- getCode1 -->
+  <wsdl:message name="getCode1Request">
+    <wsdl:documentation>Invia i dati per caricare i nomi delle case editrici presenti nel db</wsdl:documentation>
+    <wsdl:part name="nome" type="xs:string"/>
+    <wsdl:part name="cognome" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="getCode1Response">
+    <wsdl:documentation>Ritorna la lista delle case editrici senza ripetizioni</wsdl:documentation>
+    <wsdl:part name="getCode1Return" type="soapenc:String"/>
+  </wsdl:message>
+  
+  
+    
+  <!-- getDate1 -->
+   <wsdl:message name="getCFRequest">
+      <wsdl:documentation>Invia i dati per caricare il codice fiscale dell'utente</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+   </wsdl:message>
+   <wsdl:message name="getDate1Response">
+      <wsdl:documentation>Ritorna il codice fiscale dell'utente</wsdl:documentation>
+      <wsdl:part name="getDate1Return" type="soapenc:String"/>
+   </wsdl:message>
+
+   <!-- getEtà1 -->
+    <wsdl:message name="getEtà1Request">
+      <wsdl:documentation>Invia i dati per caricare il genere del libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getEtà1Response">
+      <wsdl:documentation>Ritorna il genere del libro</wsdl:documentation>
+      <wsdl:part name="getEtà1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getDataR1 -->
+    <wsdl:message name="getDataR1Request">
+      <wsdl:documentation>Invia i dati per caricare l'id del libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getDataR1Response">
+      <wsdl:documentation>Ritorna l'id del libro</wsdl:documentation>
+      <wsdl:part name="getDataR1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getDataD1 -->
+    <wsdl:message name="getDataD1Request">
+      <wsdl:documentation>Invia i dati per caricare il prezzo del libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getDataD1Response">
+      <wsdl:documentation>Ritorna il prezzo del libro</wsdl:documentation>
+      <wsdl:part name="getDataD1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getDurata1 -->
+    <wsdl:message name="getDurata1Request">
+      <wsdl:documentation>Invia i dati per caricare l'anno di uscita del libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getDurata1Response">
+      <wsdl:documentation>Ritorna l'anno di uscita del libro</wsdl:documentation>
+      <wsdl:part name="getDurata1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getDRG1 -->
+    <wsdl:message name="getDRG1Request">
+      <wsdl:documentation>Invia i dati per caricare il numero di pagine del libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getDRG1Response">
+      <wsdl:documentation>Ritorna il numero di pagine del libro</wsdl:documentation>
+      <wsdl:part name="getDRG1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+  <!-- getPrima1 -->
+  <wsdl:message name="getPrima1Request">
+    <wsdl:documentation>Invia i dati per caricare la casa editrice del libro</wsdl:documentation>
+    <wsdl:part name="nome" type="xs:string"/>
+    <wsdl:part name="cognome" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="getPrima1Response">
+    <wsdl:documentation>Ritorna la casa editrice del libro</wsdl:documentation>
+    <wsdl:part name="getPrima1Return" type="soapenc:String"/>
+  </wsdl:message>
+
+  <!-- getIcePrima1 -->
+  <wsdl:message name="getIcePrima1Request">
+    <wsdl:documentation>Invia i dati per caricare la collana del libro</wsdl:documentation>
+    <wsdl:part name="nome" type="xs:string"/>
+    <wsdl:part name="cognome" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="getIcePrima1Response">
+    <wsdl:documentation>Ritorna il numero di pagine del libro</wsdl:documentation>
+    <wsdl:part name="getIcePrima1Return" type="soapenc:String"/>
+  </wsdl:message>
+
+    <!-- getSeconda1 -->
+    <wsdl:message name="getSeconda1Request">
+      <wsdl:documentation>Invia i dati per caricare la lingua del libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getSeconda1Response">
+      <wsdl:documentation>Ritorna la lingua della partita</wsdl:documentation>
+      <wsdl:part name="getSeconda1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getIceSeconda1 -->
+    <wsdl:message name="getIceSeconda1Request">
+      <wsdl:documentation>Invia i dati per caricare l'id del libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getIceSeconda1Response">
+      <wsdl:documentation>Ritorna l'id del libro</wsdl:documentation>
+      <wsdl:part name="getIceSeconda1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getTerza1 -->
+    <wsdl:message name="getTerza1Request">
+      <wsdl:documentation>Invia i dati per caricare il nome del libro data la casa editrice</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+      <wsdl:part name="cognome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getTerza1Response">
+      <wsdl:documentation>Ritorna il nome del libro data la casa editrice</wsdl:documentation>
+      <wsdl:part name="getTerza1Return" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getIceTerza1 -->
+    <wsdl:message name="AuthorRequest">
+      <wsdl:documentation>Invia i dati per caricare gli autori dei libri</wsdl:documentation>
+    </wsdl:message>
+    <wsdl:message name="AuthorResponse">
+      <wsdl:documentation>Ritorna tutti gli autori dei libri</wsdl:documentation>
+      <wsdl:part name="AuthorReturn" type="soapenc:Vector"/>
+    </wsdl:message>
+
+    <!-- BookName -->
+    <wsdl:message name="BookNameRequest">
+      <wsdl:documentation>Invia i dati per caricare i nomi dei libri</wsdl:documentation>
+    </wsdl:message>
+    <wsdl:message name="BookNameResponse">
+      <wsdl:documentation>Ritorna tutti i nomi dei libri </wsdl:documentation>
+      <wsdl:part name="BookNameReturn" type="soapenc:Vector"/>
+    </wsdl:message>
+
+  <!-- DeletePren -->
+  <wsdl:message name="DeletePrenRequest">
+    <wsdl:documentation>Invia i dati per cancellare la riga della tabella prenotazione selezionata</wsdl:documentation>
+    <wsdl:part name="ID" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="DeletePrenResponse">
+    <wsdl:documentation>Cancella la riga della tabella prenotazione selezionata </wsdl:documentation>
+    <wsdl:part name="DeletePrenReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- IDPren -->
+  <wsdl:message name="IDPrenRequest">
+    <wsdl:documentation>Invia i dati per caricare gli ID della tabella prenotazione</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="IDPrenResponse">
+    <wsdl:documentation>Ritorna gli ID della tabella </wsdl:documentation>
+    <wsdl:part name="IDPrenReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- BookNamePren -->
+  <wsdl:message name="BookNamePrenRequest">
+    <wsdl:documentation>Invia i dati per caricare i nomi dei libri della tabella prenotazione</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="BookNamePrenResponse">
+    <wsdl:documentation>Ritorna i nomi dei libri della tabella </wsdl:documentation>
+    <wsdl:part name="BookNamePrenReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+  <!-- UserPren -->
+  <wsdl:message name="UserPrenRequest">
+    <wsdl:documentation>Invia i dati per caricare gli utenti della tabella prenotazione</wsdl:documentation>
+  </wsdl:message>
+  <wsdl:message name="UserPrenResponse">
+    <wsdl:documentation>Ritorna i nomi degli utenti della tabella </wsdl:documentation>
+    <wsdl:part name="UserPrenReturn" type="soapenc:Vector"/>
+  </wsdl:message>
+
+    <!-- loadCollana -->
+    <wsdl:message name="loadCollanaRequest">
+      <wsdl:documentation>Invia i dati per caricare gli autori di una data casa editrice</wsdl:documentation>
+      <wsdl:part name="casa" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="loadCollanaResponse">
+      <wsdl:documentation>Ritorna gli autori di una data casa editrice</wsdl:documentation>
+      <wsdl:part name="loadCollanaReturn" type="soapenc:Vector"/>
+    </wsdl:message>
+
+    <!-- loadName -->
+    <wsdl:message name="loadNameRequest">
+      <wsdl:documentation>Invia i dati per caricare i nomi dei libri nella tabella prenotazioni effettuate dell'utente</wsdl:documentation>
+      <wsdl:part name="cf" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="loadNameResponse">
+      <wsdl:documentation>Ritorna i nomi dei libri prenotati da un certo utente</wsdl:documentation>
+      <wsdl:part name="loadNameReturn" type="soapenc:Vector"/>
+    </wsdl:message>
+
+    <!-- loadAuthor -->
+    <wsdl:message name="loadAuthorRequest">
+      <wsdl:documentation>Invia i dati per caricare i nomi degli autori nella tabella prenotazioni effettuate dell'utente</wsdl:documentation>
+      <wsdl:part name="cf" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="loadAuthorResponse">
+      <wsdl:documentation>Ritorna i nomi degli autori dei libri prenotati da un certo utente</wsdl:documentation>
+      <wsdl:part name="loadAuthorReturn" type="soapenc:Vector"/>
+    </wsdl:message>
+
+    <!-- loadBookAuthor -->
+    <wsdl:message name="loadBookAuthorRequest">
+      <wsdl:documentation>Invia i dati per caricare i nomi degli autori dalla tabella libro</wsdl:documentation>
+      <wsdl:part name="nome" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="loadBookAuthorResponse">
+      <wsdl:documentation>Ritorna i nomi degli autori della tabella libro</wsdl:documentation>
+      <wsdl:part name="loadBookAuthorReturn" type="soapenc:Vector"/>
+    </wsdl:message>
+
+    <!-- getName -->
+    <wsdl:message name="getNameRequest">
+      <wsdl:documentation>Invia i dati per caricare il nome e il cognome dell'utente</wsdl:documentation>
+      <wsdl:part name="username" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getNameResponse">
+      <wsdl:documentation>Ritorna una stringa nome+cognome dell'utente</wsdl:documentation>
+      <wsdl:part name="getNameReturn" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- getTicket -->
+    <wsdl:message name="getTicketRequest">
+      <wsdl:documentation>Invia i dati per caricare il numero di prenotazione del libro</wsdl:documentation>
+    </wsdl:message>
+    <wsdl:message name="getTicketResponse">
+      <wsdl:documentation>Ritorna il numero di prenotazione del libro</wsdl:documentation>
+      <wsdl:part name="getTicketReturn" type="soapenc:int"/>
+    </wsdl:message>
+
+    <!-- getAddress -->
+    <wsdl:message name="getAddressRequest">
+      <wsdl:documentation>Invia i dati per caricare l'indirizzo mail dell'utente</wsdl:documentation>
+      <wsdl:part name="username" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="getAddressResponse">
+      <wsdl:documentation>Ritorna l'indirizzo mail dell'utente</wsdl:documentation>
+      <wsdl:part name="getAddressReturn" type="soapenc:String"/>
+    </wsdl:message>
+
+    <!-- checkDisp -->
+    <wsdl:message name="checkDispRequest">
+      <wsdl:documentation>Invia i dati per controllare se c'è disponibilità del libro</wsdl:documentation>
+      <wsdl:part name="id" type="xs:string"/>
+    </wsdl:message>
+    <wsdl:message name="checkDispResponse">
+      <wsdl:documentation>Ritorna 'true' se ci sono posti disponibili altrimenti 'false'</wsdl:documentation>
+      <wsdl:part name="checkDispReturn" type="soapenc:Boolean"/>
+    </wsdl:message>
+
+    <!-- Definizione delle operazioni che può svolgere il nostro web service -->
+
+    <wsdl:portType name="Server">
+      <wsdl:operation name="VerificaUser" parameterOrder="username password">
+        <wsdl:input name="VerificaUserRequest" message="ns1:VerificaUserRequest"/>
+        <wsdl:output name="VerificaUserResponse" message="ns1:VerificaUserResponse">
+          <wsdl:documentation>Controlla se l'username e la password sono esatti e se si e amministratori o utenti</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getName">
+        <wsdl:input name="getNameRequest" message="ns1:getNameRequest"/>
+        <wsdl:output name="getNameResponse" message="ns1:getNameResponse">
+          <wsdl:documentation>Controlla se un libro è già stata prenotato</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="newUser" parameterOrder="CF Nome Cognome Data Indirizzo Mail User Pass">
+        <wsdl:input name="newUserRequest" message="ns1:newUserRequest"/>
+        <wsdl:output name="newUserResponse" message="ns1:newUserResponse">
+        <wsdl:documentation>Inserisce un nuovo utente</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="newBook" parameterOrder="ID Nome Autore Genere Prezzo Anno Casa Collana Pagine Lingua">
+        <wsdl:input name="newBookRequest" message="ns1:newBookRequest"/>
+        <wsdl:output name="newBookResponse" message="ns1:newBookResponse">
+        <wsdl:documentation>Inserisce un nuovo libro</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="newPren" parameterOrder="prenota cf nome casaeditrice id nomelibro autore prezzo">
+        <wsdl:input name="newPrenRequest" message="ns1:newPrenRequest"/>
+        <wsdl:output name="newPrenResponse" message="ns1:newPrenResponse">
+          <wsdl:documentation>Inserisce una nuova prenotazione</wsdl:documentation>
+        </wsdl:output>
+       </wsdl:operation>
+
+      <wsdl:operation name="UpdateBook" parameterOrder="id genere prezzo anno collana pagine lingua">
+        <wsdl:input name="UpdateBookRequest" message="ns1:UpdateBookRequest"/>
+        <wsdl:output name="UpdateBookResponse" message="ns1:UpdateBookResponse">
+          <wsdl:documentation>Modifica libro</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="DeleteBook" parameterOrder="ID Nome Autore">
+        <wsdl:input name="DeleteBookRequest" message="ns1:DeleteBookRequest"/>
+        <wsdl:output name="DeleteBookResponse" message="ns1:DeleteBookResponse">
+          <wsdl:documentation>Cancella un libro</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="checkUser" parameterOrder="username">
+        <wsdl:input name="checkUserRequest" message="ns1:checkUserRequest"/>
+        <wsdl:output name="checkUserResponse" message="ns1:checkUserResponse">
+          <wsdl:documentation>Controlla che l'username sia disponibile</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+       <wsdl:operation name="checkPren" parameterOrder="cf id">
+         <wsdl:input name="checkPrenRequest" message="ns1:checkPrenRequest"/>
+         <wsdl:output name="checkPrenResponse" message="ns1:checkPrenResponse">
+           <wsdl:documentation>Controlla che il libro non sia prenotato</wsdl:documentation>
+         </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="addNome">
+          <wsdl:input name="addNomeRequest" message="ns1:addNomeRequest"/>
+          <wsdl:output name="addNomeResponse" message="ns1:addNomeResponse">
+            <wsdl:documentation>Carica i nomi dei libri</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+      <wsdl:operation name="addCasa">
+        <wsdl:input name="addCasaRequest" message="ns1:addCasaRequest"/>
+        <wsdl:output name="addCasaResponse" message="ns1:addCasaResponse">
+          <wsdl:documentation>Carica le case editrici esistenti</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+        <wsdl:operation name="getCF" parameterOrder="username">
+          <wsdl:input name="getCFRequest" message="ns1:getCFRequest"/>
+          <wsdl:output name="getCFResponse" message="ns1:getCFResponse">
+            <wsdl:documentation>Carica il codice fiscale dell'utente</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+
+        <wsdl:operation name="getType" parameterOrder="nome autore">
+          <wsdl:input name="getTypeRequest" message="ns1:getTypeRequest"/>
+          <wsdl:output name="getTypeResponse" message="ns1:getTypeResponse">
+            <wsdl:documentation>Carica il genere del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getCode" parameterOrder="nome autore">
+          <wsdl:input name="getCodeRequest" message="ns1:getCodeRequest"/>
+          <wsdl:output name="getCodeResponse" message="ns1:getCodeResponse">
+            <wsdl:documentation>Ritorna il codice identificativo del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getPrice" parameterOrder="nome autore">
+          <wsdl:input name="getPriceRequest" message="ns1:getPriceRequest"/>
+          <wsdl:output name="getPriceResponse" message="ns1:getPriceResponse">
+            <wsdl:documentation>Ritorna il prezzo del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getYear" parameterOrder="nome autore">
+          <wsdl:input name="getYearRequest" message="ns1:getYearRequest"/>
+          <wsdl:output name="getYearResponse" message="ns1:getYearResponse">
+            <wsdl:documentation>Ritorna l'anno di uscita del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getPages" parameterOrder="nome autore ">
+          <wsdl:input name="getPagesRequest" message="ns1:getPagesRequest"/>
+          <wsdl:output name="getPagesResponse" message="ns1:getPagesResponse">
+            <wsdl:documentation>Ritorna il numero di pagine del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+      <wsdl:operation name="getCasa" parameterOrder="nome autore ">
+        <wsdl:input name="getCasaRequest" message="ns1:getCasaRequest"/>
+        <wsdl:output name="getCasaResponse" message="ns1:getCasaResponse">
+          <wsdl:documentation>Ritorna la casa editrice del libro</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getCollana" parameterOrder="nome autore ">
+        <wsdl:input name="getCollanaRequest" message="ns1:getCollanaRequest"/>
+        <wsdl:output name="getCollanaResponse" message="ns1:getCollanaResponse">
+          <wsdl:documentation>Ritorna la collana del libro</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+        <wsdl:operation name="getLanguage" parameterOrder="nome autore">
+          <wsdl:input name="getLanguageRequest" message="ns1:getLanguageRequest"/>
+          <wsdl:output name="getLanguageResponse" message="ns1:getLanguageResponse">
+            <wsdl:documentation>Ritorna la lingua del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getId" parameterOrder="Nome Autore">
+          <wsdl:input name="getIdRequest" message="ns1:getIdRequest"/>
+          <wsdl:output name="getIdResponse" message="ns1:getIdResponse">
+            <wsdl:documentation>Carica l'Id del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="loadNomeCasa" parameterOrder="casa">
+          <wsdl:input name="loadNomeCasaRequest" message="ns1:loadNomeCasaRequest"/>
+          <wsdl:output name="loadNomeCasaResponse" message="ns1:loadNomeCasaResponse">
+            <wsdl:documentation>Ritorna tutti i libri di una data casa editrice</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="Author">
+          <wsdl:input name="AuthorRequest" message="ns1:AuthorRequest"/>
+          <wsdl:output name="AuthorResponse" message="ns1:AuthorResponse">
+            <wsdl:documentation>Ritorna tutti gli autori dei libri</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="BookName">
+          <wsdl:input name="BookNameRequest" message="ns1:BookNameRequest"/>
+          <wsdl:output name="BookNameResponse" message="ns1:BookNameResponse">
+            <wsdl:documentation>Ritorna tutti nomi dei libri</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+      <wsdl:operation name="DeletePren">
+        <wsdl:input name="DeletePrenRequest" message="ns1:DeletePrenRequest"/>
+        <wsdl:output name="DeletePrenResponse" message="ns1:DeletePrenResponse">
+          <wsdl:documentation>Cancella una riga della tabella prenotazione</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="IDPren">
+        <wsdl:input name="IDPrenRequest" message="ns1:IDPrenRequest"/>
+        <wsdl:output name="IDPrenResponse" message="ns1:IDPrenResponse">
+          <wsdl:documentation>Ritorna tutti gli ID della tabella prenotazione</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="BookNamePren">
+        <wsdl:input name="BookNamePrenRequest" message="ns1:BookNamePrenRequest"/>
+        <wsdl:output name="BookNamePrenResponse" message="ns1:BookNamePrenResponse">
+          <wsdl:documentation>Ritorna tutti nomi dei libri della tabella prenotazioni</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="UserPren">
+        <wsdl:input name="UserPrenRequest" message="ns1:UserPrenRequest"/>
+        <wsdl:output name="UserPrenResponse" message="ns1:UserPrenResponse">
+          <wsdl:documentation>Ritorna tutti nomi degli utenti della tabella prenotazione</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+        <wsdl:operation name="loadCollana" parameterOrder="casa">
+          <wsdl:input name="loadCollanaRequest" message="ns1:loadCollanaRequest"/>
+          <wsdl:output name="loadCollanaResponse" message="ns1:loadCollanaResponse">
+            <wsdl:documentation>Ritorna tutti gli autori di una casa editrice</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="loadName" parameterOrder="cf">
+          <wsdl:input name="loadNameRequest" message="ns1:loadNameRequest"/>
+          <wsdl:output name="loadNameResponse" message="ns1:loadNameResponse">
+            <wsdl:documentation>Ritorna tutti i nomi dei libri prenotati da un dato utente</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="loadAuthor" parameterOrder="cf">
+          <wsdl:input name="loadAuthorRequest" message="ns1:loadAuthorRequest"/>
+          <wsdl:output name="loadAuthorResponse" message="ns1:loadAuthorResponse">
+            <wsdl:documentation>Ritorna tutti i nomi degli autori dei libri prenotati da un dato utente</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="loadBookAuthor" parameterOrder="nome">
+          <wsdl:input name="loadBookAuthorRequest" message="ns1:loadBookAuthorRequest"/>
+          <wsdl:output name="loadBookAuthorResponse" message="ns1:loadBookAuthorResponse">
+            <wsdl:documentation>Ritorna l'autore del libro</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getName" parameterOrder="username">
+          <wsdl:input name="getNameRequest" message="ns1:getNameRequest"/>
+          <wsdl:output name="getNameResponse" message="ns1:getNameResponse">
+            <wsdl:documentation>Ritorna la stringa nome+cognome dell'utente</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getTicket">
+          <wsdl:input name="getTicketRequest" message="ns1:getTicketRequest"/>
+          <wsdl:output name="getTicketResponse" message="ns1:getTicketResponse">
+            <wsdl:documentation>Ritorna il numero della prenotazione corrente</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="getAddress" parameterOrder="username">
+          <wsdl:input name="getAddressRequest" message="ns1:getAddressRequest"/>
+          <wsdl:output name="getAddressResponse" message="ns1:getAddressResponse">
+            <wsdl:documentation>Ritorna l'indirizzo mail dell'utente</wsdl:documentation>
+          </wsdl:output>
+        </wsdl:operation>
+
+      <wsdl:operation name="checkDisp" parameterOrder="id">
+        <wsdl:input name="checkDispRequest" message="ns1:checkDispRequest"/>
+        <wsdl:output name="checkDispResponse" message="ns1:checkDispResponse">
+          <wsdl:documentation>Controlla che il libro selezionato sia disponibile</wsdl:documentation>
+        </wsdl:output>
+      </wsdl:operation>
+
+      </wsdl:portType>
+
+    <!-- Definizione relativa al collegamento tra le operazioni e l'end point fisico -->
+
+    <wsdl:binding name="ServerSoapBinding" type="ns1:Server">
+      <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <!-- VerificaUser -->
+      <wsdl:operation name="VerificaUser">
+        <soap:operation soapAction="urn:#VerificaUser"/>
+        <wsdl:input name="VerificaUserRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="VerificaUserResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+
+        <!-- getName -->
+      </wsdl:operation>
+      <wsdl:operation name="getName">
+        <soap:operation soapAction="urn:#getName"/>
+        <wsdl:input name="getNameRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getNameResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- newUser -->
+      <wsdl:operation name="newUser">
+        <soap:operation soapAction="urn:#newUser"/>
+        <wsdl:input name="newUserRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="newUserResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- newBook -->
+      <wsdl:operation name="newBook">
+        <soap:operation soapAction="urn:#newBook"/>
+        <wsdl:input name="newBookRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="newBookResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- newPren -->
+      <wsdl:operation name="newPren">
+        <soap:operation soapAction="urn:#newPren"/>
+        <wsdl:input name="newPrenRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="newPrenResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- UpdateBook -->
+      <wsdl:operation name="UpdateBook">
+        <soap:operation soapAction="urn:#UpdateBook"/>
+        <wsdl:input name="UpdateBookRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="UpdateBookResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- DeleteBook -->
+      <wsdl:operation name="DeleteBook">
+        <soap:operation soapAction="urn:#DeleteBook"/>
+        <wsdl:input name="DeleteBookRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="DeleteBookResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- checkUser -->
+      <wsdl:operation name="checkUser">
+        <soap:operation soapAction="urn:#checkUser"/>
+        <wsdl:input name="checkUserRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="checkUserResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- checkPren -->
+      <wsdl:operation name="checkPren">
+        <soap:operation soapAction="urn:#checkPren"/>
+        <wsdl:input name="checkPrenRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="checkPrenResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- addNome -->
+      <wsdl:operation name="addNome">
+        <soap:operation soapAction="urn:#addNome"/>
+        <wsdl:input name="addNomeRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="addNomeResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- addCasa -->
+      <wsdl:operation name="addCasa">
+        <soap:operation soapAction="urn:#addCasa"/>
+        <wsdl:input name="addCasaRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="addCasaResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getCF -->
+      <wsdl:operation name="getCF">
+        <soap:operation soapAction="urn:#getCF"/>
+        <wsdl:input name="getCFRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getCFResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+
+      <!-- getType -->
+      <wsdl:operation name="getType">
+        <soap:operation soapAction="urn:#getType"/>
+        <wsdl:input name="getTypeRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getTypeResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getCode -->
+      <wsdl:operation name="getCode">
+        <soap:operation soapAction="urn:#getCode"/>
+        <wsdl:input name="getCodeRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getCodeResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getPrice -->
+      <wsdl:operation name="getPrice">
+        <soap:operation soapAction="urn:#getPrice"/>
+        <wsdl:input name="getPriceRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getPriceResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getYear -->
+      <wsdl:operation name="getYear">
+        <soap:operation soapAction="urn:#getYear"/>
+        <wsdl:input name="getYearRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getYearResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getPages -->
+      <wsdl:operation name="getPages">
+        <soap:operation soapAction="urn:#getPages"/>
+        <wsdl:input name="getPagesRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getPagesResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getCasa -->
+      <wsdl:operation name="getCasa">
+        <soap:operation soapAction="urn:#getCasa"/>
+        <wsdl:input name="getCasaRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getCasaResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getCollana -->
+      <wsdl:operation name="getCollana">
+        <soap:operation soapAction="urn:#getCollana"/>
+        <wsdl:input name="getCollanaRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getCollanaResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getLanguage -->
+      <wsdl:operation name="getLanguage">
+        <soap:operation soapAction="urn:#getLanguage"/>
+        <wsdl:input name="getLanguageRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getLanguageResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+      
+      <!-- getId -->
+      <wsdl:operation name="getId">
+        <soap:operation soapAction="urn:#getId"/>
+        <wsdl:input name="getIdRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getIdResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- loadNomeCasa -->
+      <wsdl:operation name="loadNomeCasa">
+        <soap:operation soapAction="urn:#loadNomeCasa"/>
+        <wsdl:input name="loadNomeCasaRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="loadNomeCasaResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- Author -->
+      <wsdl:operation name="Author">
+        <soap:operation soapAction="urn:#Author"/>
+        <wsdl:input name="AuthorRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="AuthorResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- BookName -->
+      <wsdl:operation name="BookName">
+        <soap:operation soapAction="urn:#BookName"/>
+        <wsdl:input name="BookNameRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="BookNameResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- DeletePren -->
+      <wsdl:operation name="DeletePren">
+        <soap:operation soapAction="urn:#DeletePren"/>
+        <wsdl:input name="DeletePrenRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="DeletePrenResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- IDPren -->
+      <wsdl:operation name="IDPrenName">
+        <soap:operation soapAction="urn:#IDPrenName"/>
+        <wsdl:input name="IDPrenRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="IDPrenResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- BookNamePren -->
+      <wsdl:operation name="BookNamePren">
+        <soap:operation soapAction="urn:#BookNamePren"/>
+        <wsdl:input name="BookNamePrenRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="BookNamePrenResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- UserPren -->
+      <wsdl:operation name="UserPrenName">
+        <soap:operation soapAction="urn:#UserPrenName"/>
+        <wsdl:input name="UserPrenRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="UserPrenResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+      
+      <!-- loadCollana -->
+      <wsdl:operation name="loadCollana">
+        <soap:operation soapAction="urn:#loadCollana"/>
+        <wsdl:input name="loadCollanaRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="loadCollanaResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- loadName -->
+      <wsdl:operation name="loadName">
+        <soap:operation soapAction="urn:#loadName"/>
+        <wsdl:input name="loadNameRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="loadNameResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- loadAuthor -->
+      <wsdl:operation name="loadAuthor">
+        <soap:operation soapAction="urn:#loadAuthor"/>
+        <wsdl:input name="loadAuthorRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="loadAuthorResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- loadBookAuthor -->
+      <wsdl:operation name="loadBookAuthor">
+        <soap:operation soapAction="urn:#loadBookAuthor"/>
+        <wsdl:input name="loadBookAuthorRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="loadBookAuthorResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getName -->
+      <wsdl:operation name="getName">
+        <soap:operation soapAction="urn:#getName"/>
+        <wsdl:input name="getNameRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getNameResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getTicket -->
+      <wsdl:operation name="getTicket">
+        <soap:operation soapAction="urn:#getTicket"/>
+        <wsdl:input name="getTicketRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getTicketResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- getAddress-->
+      <wsdl:operation name="getAddress">
+        <soap:operation soapAction="urn:#getAddress"/>
+        <wsdl:input name="getAddressRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="getAddressResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+      <!-- checkDisp-->
+      <wsdl:operation name="checkDisp">
+        <soap:operation soapAction="urn:#checkDisp"/>
+        <wsdl:input name="checkDispRequest">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:input>
+        <wsdl:output name="checkDispResponse">
+          <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+        </wsdl:output>
+      </wsdl:operation>
+
+    </wsdl:binding>
+
+    <!-- Definizione relativa alla posizione fisica del servizio e alla sua descrizione -->
+
+    <wsdl:service name="SOAPService">
+      <wsdl:port name="Server" binding="ns1:ServerSoapBinding">
+        <soap:address location="http://localhost:8080/soap/"/>
+      </wsdl:port>
+    </wsdl:service>
+
+  
+</wsdl:definitions>
